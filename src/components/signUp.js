@@ -54,10 +54,8 @@ const SignUp=() =>{
                 <Form.Group className="p-3">                      
                     <Form.Control type="password" placeholder="Confirm Password" minLength={6} required size="lg" ref={confirmPasswordRef} />
                 </Form.Group>
-                <div className={classes.signUpBtn}>
+                <div className={classes.Btns}>
                     <Button type="submit" size="lg">SIGN UP</Button>
-                </div>
-                <div className={classes.loginBtn}>
                     <Button variant="link" size="lg" onClick={loginExistingAccHandler}>Login With Existing Account</Button>
                 </div>
             </Form>

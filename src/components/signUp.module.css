@@ -13,16 +13,10 @@
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
-.signUpBtn {
+.Btns {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5px;
-}
-
-.loginBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
+    padding: 10px;
 }
