@@ -26,3 +26,7 @@ src/reportWebVitals.js
 src/logo.svg
 src/App.test.js
 src/App.css
+src/components/login.js
+src/components/login.module.css
+src/components/signUp.js
+.gitignore
