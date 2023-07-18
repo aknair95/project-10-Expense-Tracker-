@@ -18,6 +18,7 @@ const UpdateProfile=() =>{
         const enteredPhotoURL=photoURLRef.current.value;
         const idToken=localStorage.getItem("token");
 
+        // Firebase API call for updating user profile(name & photo)
         try{ 
             await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyC2XPoZUSexSQEMArfcPRTAXop_LGXmjnY",{
                 idToken: idToken,
