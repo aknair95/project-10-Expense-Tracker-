@@ -12,10 +12,24 @@ const UpdateProfile=() =>{
 
     const navigate=useNavigate();
 
-    const updateBtnHandler=(e) =>{
+    const updateBtnHandler= async (e) =>{
         e.preventDefault();
         const enteredName=nameRef.current.value;
         const enteredPhotoURL=photoURLRef.current.value;
+        const idToken=localStorage.getItem("token");
+
+        try{ 
+            await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyC2XPoZUSexSQEMArfcPRTAXop_LGXmjnY",{
+                idToken: idToken,
+                displayName: enteredName,
+                photoUrl: enteredPhotoURL,
+                returnSecureToken: true
+             });
+            alert("Profile updated successfully"); 
+            navigate("/home");
+            } catch(error){
+                alert("Please enter valid name & photo URL");
+            }
     }
 
     const cancelBtnHandler=() =>{
