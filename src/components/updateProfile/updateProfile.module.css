@@ -1,0 +1,18 @@
+
+.formContainer {
+    margin-top: 250px;
+    background-color: rgb(172, 95, 8);
+    border-radius: 12px;
+    color: white;
+}
+
+.formContainer h3 {
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.Btns {
+    padding: 10px;
+}
