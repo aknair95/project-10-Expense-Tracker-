@@ -14,6 +14,7 @@ const UpdateProfile=() =>{
 
     let name,photoURL;
 
+    // POST request to firebase authentication for getting logged in user account details to pre-fill form
     const getUserProfileDetails= async () =>{
         try{ 
             const idToken=localStorage.getItem("token");
@@ -22,9 +23,7 @@ const UpdateProfile=() =>{
              });
             nameRef.current.value=response.data.users[0].displayName;
             photoURLRef.current.value=response.data.users[0].photoUrl;
-            // name=response.data.users.displayName;
-            // photoURL=response.data.users.photoUrl;
-            alert("Profile data lost, edit profile details & re-submit"); 
+            alert("Edit profile details & submit"); 
             } catch(error){
                 alert("Please enter valid name & photo URL");
             }
