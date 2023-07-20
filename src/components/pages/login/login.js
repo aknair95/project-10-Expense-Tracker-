@@ -22,14 +22,13 @@ const Login=() =>{
              });
              localStorage.setItem("token",response.data.idToken);
              localStorage.setItem("emailId",enteredEmail);
+             navigate("/home");
             } catch(error){
                 alert("!!! Incorrect Email or Password !!!");
             }
 
         emailRef.current.value="";
         passwordRef.current.value="";
-
-        navigate("/home");
     }
 
     const createNewAccHandler=() =>{

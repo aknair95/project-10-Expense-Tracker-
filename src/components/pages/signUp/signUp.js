@@ -23,12 +23,12 @@ const SignUp=() =>{
                 password: enteredPassword,
                 returnSecureToken: true
              });
-            localStorage.setItem("emailVerified",false);
-            localStorage.setItem("profileUpdated",false);
+            localStorage.setItem(`emailVerifyStatus${enteredEmail}`,false);
+            localStorage.setItem(`profileUpdatedStatus${enteredEmail}`,false);
             alert("Signed up successfully"); 
             navigate("/login");
             } catch(error){
-                alert("Please enter valid email & password(min length- 6 character)");
+                alert("Please enter valid email & password(min length- 6 characters)");
             }
         } else{
             alert("!!! Incorrect Password. Please Enter Again !!!");
@@ -36,6 +36,7 @@ const SignUp=() =>{
         
         emailRef.current.value="";
         passwordRef.current.value="";
+        confirmPasswordRef.current.value="";
     }
 
     const loginExistingAccHandler=() =>{
