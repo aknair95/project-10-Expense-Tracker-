@@ -12,3 +12,8 @@ header h5 {
 header h2 {
     padding: 10px;
 }
+
+btns {
+    display: flex;
+    flex-direction: row;
+}
