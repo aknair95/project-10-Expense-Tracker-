@@ -30,3 +30,5 @@ src/components/login.js
 src/components/login.module.css
 src/components/signUp.js
 .gitignore
+src/components/updateProfile/updateProfile.js
+src/components/updateProfile/updateProfile.module.css

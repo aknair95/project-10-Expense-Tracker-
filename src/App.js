@@ -22,7 +22,7 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/signUp" element={<SignUp/>} />
           <Route path="/home" element={<Home profileUpdated={profileUpdated}/>} />
-          <Route path="/updateProfile" element={<UpdateProfile setProfileUpdated={setProfileUpdated} />} />
+          <Route path="/updateProfile" element={<UpdateProfile setProfileUpdated={setProfileUpdated} profileUpdated={profileUpdated}/>} />
           <Route path="/resetPassword" element={<ResetPassword/>} />
         </Routes>
       </BrowserRouter>

@@ -14,6 +14,8 @@ const Home=(props) =>{
     const token=localStorage.getItem("token");
     const emailId=localStorage.getItem("emailId");
 
+    const [tokenStatus,setTokenStatus]= useState(token);
+
     let emailVerifyStatus=localStorage.getItem(`emailVerifyStatus${emailId}`);
     if(emailVerifyStatus===null){ 
         emailVerifyStatus="false";
@@ -37,6 +39,7 @@ const Home=(props) =>{
     const logoutHandler=() =>{
         localStorage.removeItem("token");
         localStorage.removeItem("emailId");
+        setTokenStatus(null);
         navigate("/login");
     }
 
@@ -49,7 +52,7 @@ const Home=(props) =>{
             </header><hr/>
             <div className={classes.btns}>
                 {emailVerified==="false" && <Button variant="info" size="md" onClick={verifyEmailBtnHandler}>Verify Email</Button>}
-                <Button variant="danger" onClick={logoutHandler}>Logout</Button>
+                {!!tokenStatus && <Button variant="danger" onClick={logoutHandler}>Logout</Button>}
             </div>   
         </>
         
