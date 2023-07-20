@@ -23,6 +23,8 @@ const SignUp=() =>{
                 password: enteredPassword,
                 returnSecureToken: true
              });
+            localStorage.setItem("emailVerified",false);
+            localStorage.setItem("profileUpdated",false);
             alert("Signed up successfully"); 
             navigate("/login");
             } catch(error){
