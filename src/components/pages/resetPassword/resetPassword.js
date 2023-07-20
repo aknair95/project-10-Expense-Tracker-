@@ -1,5 +1,5 @@
 import classes from "./resetPassword.module.css";
-import { Button,Container,Form } from "react-bootstrap";
+import { Button,Container,Form, Spinner } from "react-bootstrap";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -11,8 +11,9 @@ const ResetPassword=() =>{
    
     const resetPasswordHandler= async(e) =>{
         e.preventDefault();
+        (<Spinner animation="border"/>)
         const enteredEmail=emailRef.current.value;
-
+        //POST firebase request to reset password link to email
         try{ 
             await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC2XPoZUSexSQEMArfcPRTAXop_LGXmjnY",{
                 requestType: "PASSWORD_RESET",
