@@ -19,7 +19,7 @@ const Home=(props) =>{
         emailVerifyStatus="false";
     }    
     const [emailVerified,setEmailVerified]= useState(emailVerifyStatus);
-
+    
     const verifyEmailBtnHandler= async() =>{
         try{ 
             await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC2XPoZUSexSQEMArfcPRTAXop_LGXmjnY",{
@@ -34,6 +34,12 @@ const Home=(props) =>{
             }
     }
 
+    const logoutHandler=() =>{
+        localStorage.removeItem("token");
+        localStorage.removeItem("emailId");
+        navigate("/login");
+    }
+
     return(
         <>
             <header className={classes.header}>
@@ -43,7 +49,7 @@ const Home=(props) =>{
             </header><hr/>
             <div className={classes.btns}>
                 {emailVerified==="false" && <Button variant="info" size="md" onClick={verifyEmailBtnHandler}>Verify Email</Button>}
-                <Button variant="danger">Logout</Button>
+                <Button variant="danger" onClick={logoutHandler}>Logout</Button>
             </div>   
         </>
         
