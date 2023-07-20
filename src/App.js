@@ -3,7 +3,8 @@ import { useState } from "react";
 import Login from "./components/pages/login/login";
 import SignUp from "./components/pages/signUp/signUp";
 import Home from "./components/pages/home/home";
-import UpdateProfile from "./components/updateProfile/updateProfile";
+import UpdateProfile from "./components/pages/updateProfile/updateProfile";
+import ResetPassword from "./components/pages/resetPassword/resetPassword";
 
 function App() {
   const emailId=localStorage.getItem("emailId");
@@ -22,6 +23,7 @@ function App() {
           <Route path="/signUp" element={<SignUp/>} />
           <Route path="/home" element={<Home profileUpdated={profileUpdated}/>} />
           <Route path="/updateProfile" element={<UpdateProfile setProfileUpdated={setProfileUpdated} />} />
+          <Route path="/resetPassword" element={<ResetPassword/>} />
         </Routes>
       </BrowserRouter>
     </>
