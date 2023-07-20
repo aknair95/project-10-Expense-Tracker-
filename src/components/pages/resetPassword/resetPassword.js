@@ -7,10 +7,22 @@ import axios from "axios";
 const ResetPassword=() =>{
 
     const emailRef=useRef();
-
-    const resetPasswordHandler=(e) =>{
+    const navigate=useNavigate();
+   
+    const resetPasswordHandler= async(e) =>{
         e.preventDefault();
-        
+        const enteredEmail=emailRef.current.value;
+
+        try{ 
+            await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC2XPoZUSexSQEMArfcPRTAXop_LGXmjnY",{
+                requestType: "PASSWORD_RESET",
+                email: enteredEmail
+             });
+            alert("!!! Password reset link sent to your email !!!");
+            navigate("/login");
+            } catch(error){
+                alert("!!! Invalid Email !!!");
+            }
     }
 
     return(
