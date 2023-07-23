@@ -3,6 +3,8 @@ import classes from "./home.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import ExpenseForm from "../../expenseForm";
+import ExpenseList from "../../expenseList";
 
 const Home=(props) =>{
     const navigate=useNavigate();
@@ -46,14 +48,22 @@ const Home=(props) =>{
     return(
         <>
             <header className={classes.header}>
-                <h2>!!! Welcome to Expense Tracker!!!</h2>
-                {props.profileUpdated==="false" && <h5>Your Profile Is Incomplete.</h5>}
-                {props.profileUpdated==="false" && <Button variant="link" size="lg" onClick={completeNowBtnHandler}>Complete Now</Button>}
+                <h2>!!! Welcome to Expense Tracker !!!</h2>
+                {(props.profileUpdated==="false" && !!tokenStatus) && <h5>Your Profile Is Incomplete.</h5>}
+                {(props.profileUpdated==="false" && !!tokenStatus) && <Button variant="link" size="lg" onClick={completeNowBtnHandler}>Complete Now</Button>}
             </header><hr/>
             <div className={classes.btns}>
-                {emailVerified==="false" && <Button variant="info" size="md" onClick={verifyEmailBtnHandler}>Verify Email</Button>}
+                {(emailVerified==="false" && !!tokenStatus) && <Button variant="info" size="md" onClick={verifyEmailBtnHandler}>Verify Email</Button>}
                 {!!tokenStatus && <Button variant="danger" onClick={logoutHandler}>Logout</Button>}
-            </div>   
+            </div>
+            <main>
+                <hr/>
+                <ExpenseForm addNewExpense={props.addNewExpense}/>   
+            </main>
+            <footer>
+                <br/> <hr/>
+                <ExpenseList expensesData={props.expensesData}/>
+            </footer>
         </>
         
     )
