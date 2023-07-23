@@ -56,16 +56,19 @@ const Home=(props) =>{
                 {(emailVerified==="false" && !!tokenStatus) && <Button variant="info" size="md" onClick={verifyEmailBtnHandler}>Verify Email</Button>}
                 {!!tokenStatus && <Button variant="danger" onClick={logoutHandler}>Logout</Button>}
             </div>
-            <main>
-                <hr/>
-                <ExpenseForm addNewExpense={props.addNewExpense}/>   
-            </main>
-            <footer>
-                <br/> <hr/>
-                <ExpenseList expensesData={props.expensesData}/>
-            </footer>
+           { !!tokenStatus &&
+            <>
+                <main>
+                    <hr/>
+                    <ExpenseForm addNewExpense={props.addNewExpense}/>   
+                </main>
+                <footer>
+                    <br/> <hr/>
+                    <ExpenseList expensesData={props.expensesData}/>
+                </footer>
+            </>
+            }    
         </>
-        
     )
 }
 
