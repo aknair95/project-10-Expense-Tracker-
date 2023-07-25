@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Login from "./components/pages/login/login";
 import SignUp from "./components/pages/signUp/signUp";
 import Home from "./components/pages/home/home";
@@ -7,22 +8,49 @@ import UpdateProfile from "./components/pages/updateProfile/updateProfile";
 import ResetPassword from "./components/pages/resetPassword/resetPassword";
 
 function App() {
-
+  
   const emailId=localStorage.getItem("emailId");
+  const emailId1=emailId.replace('@',"");
+  const updatedEmailId=emailId1.replace('.',"");
 
   let profileUpdatedStatus=localStorage.getItem(`profileUpdatedStatus${emailId}`);
   if(profileUpdatedStatus===null){ 
       profileUpdatedStatus="false";
-  }  
+  }
+
   const [profileUpdated,setProfileUpdated]= useState(profileUpdatedStatus);
 
   const [expensesData,setExpensesData]= useState([]);
   
-  const addNewExpenseHandler=(newExpense) =>{
-    setExpensesData((prevExpenses) =>{
-      return [ ...prevExpenses,{amount:newExpense.amount,description:newExpense.description,category:newExpense.category}];
-    });
+  const getExpensesFirebase= async() =>{ 
+  try{ 
+    const response=await axios.get(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`);
+    if(!!response.data){
+      setExpensesData(response.data.updatedExpenses);
   }
+  } catch(error){
+    console.log(error);
+  }  
+}
+
+useEffect(() =>{
+  getExpensesFirebase();
+},[])
+
+const addNewExpenseHandler= async(newExpense) =>{
+
+  setExpensesData((prevExpenses) =>{
+    return [ ...prevExpenses,{amount:newExpense.amount,description:newExpense.description,category:newExpense.category}];
+      });
+
+    try{ 
+        await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
+            updatedExpenses: expensesData
+           }); 
+    } catch(error){
+        console.log(error);
+    }  
+}
 
   return (
     <>
