@@ -13,13 +13,13 @@ const ExpenseList=(props) =>{
         <ul className="expenses-list">
             {   
                 props.expensesData.map((element) => (
-                    <div className="expense-item">
+                    <li className="expense-item" key={Math.random()}>
                         <div className="expense-item__description"> 
                             <div className='expense-item__amt'>{`Rs ${element.amount}`}</div>
                             <div className="description"><h5 >DESCRIPTION</h5>{element.description}</div> 
                             <div className="category"><h5 >CATEGORY</h5>{element.category}</div>    
                         </div>
-                    </div>    
+                    </li>    
             ))}
         </ul>
         </>
