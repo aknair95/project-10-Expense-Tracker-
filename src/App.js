@@ -19,44 +19,48 @@ function App() {
   }
 
   const [profileUpdated,setProfileUpdated]= useState(profileUpdatedStatus);
-
   const [expensesData,setExpensesData]= useState([]);
-  
+
   const getExpensesFirebase= async() =>{ 
   try{ 
     const response=await axios.get(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`);
     if(!!response.data){
-      setExpensesData(response.data.updatedExpenses);
-  }
-  } catch(error){
-    console.log(error);
-  }  
-}
-
-useEffect(() =>{
-  getExpensesFirebase();
-},[])
-
-const addNewExpenseHandler= async(newExpense) =>{
-
-  setExpensesData((prevExpenses) =>{
-    return [ ...prevExpenses,{amount:newExpense.amount,description:newExpense.description,category:newExpense.category}];
-      });
-
-    try{ 
-        await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
-            updatedExpenses: expensesData
-           }); 
+     setExpensesData(response.data.updatedExpenses);
+    }
     } catch(error){
-        console.log(error);
+      console.log(error);
     }  
-}
+  }
+
+  useEffect(() =>{
+    getExpensesFirebase();
+  },[])
+
+  const postExpensesFirebase= async(updatedExpenses) =>{
+    try{ 
+      await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
+          updatedExpenses: updatedExpenses
+         });  
+    } catch(error){
+      console.log(error);
+  }  
+  }
+
+  useEffect(() =>{
+    postExpensesFirebase();
+  },[postExpensesFirebase])
+
+  const addNewExpenseHandler=(newExpense) =>{
+    const updatedExpenses=[ ...expensesData,newExpense];
+    setExpensesData(updatedExpenses);  
+    postExpensesFirebase(updatedExpenses);
+  }
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login/>} />
+          <Route path="/login" element={<Login setExpensesData={setExpensesData}/>} />
           <Route path="/signUp" element={<SignUp/>} />
           <Route path="/home" element={<Home profileUpdated={profileUpdated} addNewExpense={addNewExpenseHandler} expensesData={expensesData}/>} />
           <Route path="/updateProfile" element={<UpdateProfile setProfileUpdated={setProfileUpdated} profileUpdated={profileUpdated} />} />
