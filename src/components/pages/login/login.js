@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Login=() =>{
+const Login=(props) =>{
     const emailRef=useRef();
     const passwordRef=useRef();
     const navigate=useNavigate();
@@ -22,7 +22,9 @@ const Login=() =>{
              });
              localStorage.setItem("token",response.data.idToken);
              localStorage.setItem("emailId",enteredEmail);
+             props.setExpensesData([]);
              navigate("/home");
+             document.location.reload();
             } catch(error){
                 alert("!!! Incorrect Email or Password !!!");
             }
