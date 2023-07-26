@@ -63,8 +63,8 @@ const Home=(props) =>{
                     <ExpenseForm addNewExpense={props.addNewExpense}/>   
                 </main>
                 <footer>
-                    <br/> <hr/>
-                    <ExpenseList expensesData={props.expensesData}/>
+                    <br/><hr/>
+                    <ExpenseList expensesData={props.expensesData} setExpensesData={props.setExpensesData}/>
                 </footer>
             </>
             }    

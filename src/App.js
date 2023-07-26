@@ -10,8 +10,11 @@ import ResetPassword from "./components/pages/resetPassword/resetPassword";
 function App() {
   
   const emailId=localStorage.getItem("emailId");
-  const emailId1=emailId.replace('@',"");
-  const updatedEmailId=emailId1.replace('.',"");
+  let updatedEmailId;
+  if(!!emailId){
+    const emailId1=emailId.replace('@',"");
+    updatedEmailId=emailId1.replace('.',"");
+  }
 
   let profileUpdatedStatus=localStorage.getItem(`profileUpdatedStatus${emailId}`);
   if(profileUpdatedStatus===null){ 
@@ -62,7 +65,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login setExpensesData={setExpensesData}/>} />
           <Route path="/signUp" element={<SignUp/>} />
-          <Route path="/home" element={<Home profileUpdated={profileUpdated} addNewExpense={addNewExpenseHandler} expensesData={expensesData}/>} />
+          <Route path="/home" element={<Home profileUpdated={profileUpdated} addNewExpense={addNewExpenseHandler} expensesData={expensesData} setExpensesData={setExpensesData}/>} />
           <Route path="/updateProfile" element={<UpdateProfile setProfileUpdated={setProfileUpdated} profileUpdated={profileUpdated} />} />
           <Route path="/resetPassword" element={<ResetPassword/>} />
         </Routes>

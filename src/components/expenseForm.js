@@ -14,6 +14,7 @@ const ExpenseForm=(props) =>{
         const enteredCategory=categoryRef.current.value; 
 
         const newExpense={
+            id: Math.random(),
             amount: enteredAmount,
             description: enteredDescription,
             category: enteredCategory
