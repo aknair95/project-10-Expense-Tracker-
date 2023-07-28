@@ -45,6 +45,18 @@ const Home=(props) =>{
         navigate("/login");
     }
 
+    const [amt,setAmt]=useState();
+    const [description,setDescription]=useState();
+    const [category,setCategory]=useState();
+   
+    const preFillFormHandler=(amt,description,category) =>{
+        setAmt(amt);
+        setDescription(description);
+        setCategory(category);
+        scrollTo(0,0);
+        alert("!!! EDIT EXPENSE AND RE-SUBMIT !!!")
+    }
+
     return(
         <>
             <header className={classes.header}>
@@ -60,11 +72,19 @@ const Home=(props) =>{
             <>
                 <main>
                     <hr/>
-                    <ExpenseForm addNewExpense={props.addNewExpense}/>   
+                    <ExpenseForm 
+                        addNewExpense={props.addNewExpense} 
+                        preFillFormHandler={preFillFormHandler} 
+                        amt={amt} 
+                        description={description} 
+                        category={category}/>   
                 </main>
                 <footer>
                     <br/><hr/>
-                    <ExpenseList expensesData={props.expensesData} setExpensesData={props.setExpensesData}/>
+                    <ExpenseList 
+                        expensesData={props.expensesData} 
+                        setExpensesData={props.setExpensesData} 
+                        preFillForm={preFillFormHandler}/>
                 </footer>
             </>
             }    

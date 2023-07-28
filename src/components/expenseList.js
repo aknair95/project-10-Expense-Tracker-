@@ -17,7 +17,7 @@ const ExpenseList=(props) =>{
         const Id=e.target.parentElement.parentElement.id;
         const updatedExpenses=props.expensesData.filter((element) => element.id!=Id )
         props.setExpensesData(updatedExpenses);
-         
+
         try{ 
             await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
                 updatedExpenses: updatedExpenses
@@ -28,8 +28,29 @@ const ExpenseList=(props) =>{
         } 
     }
 
-    const editExpenseHandler=(e) =>{
+    const editExpenseHandler= async(e) =>{
+        const Id=e.target.parentElement.parentElement.id;
 
+        let amt,description,category;
+        props.expensesData.map((element) =>{
+            if(element.id==Id){
+                amt=element.amount;
+                description=element.description;
+                category=element.category;
+            }      
+        })
+        props.preFillForm(amt,description,category);     
+
+        const updatedExpenses=props.expensesData.filter((element) => element.id!=Id )
+        props.setExpensesData(updatedExpenses);
+         
+        try{ 
+            await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
+                updatedExpenses: updatedExpenses
+               });    
+        } catch(error){
+            console.log(error);
+        } 
     }
 
     return (

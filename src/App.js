@@ -65,7 +65,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login setExpensesData={setExpensesData}/>} />
           <Route path="/signUp" element={<SignUp/>} />
-          <Route path="/home" element={<Home profileUpdated={profileUpdated} addNewExpense={addNewExpenseHandler} expensesData={expensesData} setExpensesData={setExpensesData}/>} />
+          <Route path="/home" element={<Home profileUpdated={profileUpdated} addNewExpense={addNewExpenseHandler} 
+            expensesData={expensesData} setExpensesData={setExpensesData} />} />
           <Route path="/updateProfile" element={<UpdateProfile setProfileUpdated={setProfileUpdated} profileUpdated={profileUpdated} />} />
           <Route path="/resetPassword" element={<ResetPassword/>} />
         </Routes>

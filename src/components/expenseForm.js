@@ -7,7 +7,7 @@ const ExpenseForm=(props) =>{
     const descriptionRef=useRef();
     const categoryRef=useRef();
 
-    const addExpenseHandler= async (e) =>{
+    const addExpenseHandler= (e) =>{
         e.preventDefault();
         const enteredAmount=amountRef.current.value;
         const enteredDescription=descriptionRef.current.value; 
@@ -24,7 +24,8 @@ const ExpenseForm=(props) =>{
 
         amountRef.current.value="";
         descriptionRef.current.value="";
-        categoryRef.current.value="Select Category";
+        categoryRef.current.value="default";
+        alert("!!! EXPENSE ADDED !!!");
     }
 
     return(
@@ -33,14 +34,14 @@ const ExpenseForm=(props) =>{
             <h3 className="p-2">ADD NEW EXPENSE</h3>
             <Form onSubmit={addExpenseHandler}>
                 <Form.Group className="p-3">                    
-                    <Form.Control type="number" placeholder="Enter Amount" required size="lg" ref={amountRef}/>
+                    <Form.Control type="number" placeholder="Enter Amount" required size="lg" ref={amountRef} defaultValue={props.amt} />
                 </Form.Group>
                 <Form.Group className="p-3">                      
-                    <Form.Control type="text" placeholder="Enter Description" required size="lg" ref={descriptionRef} />
+                    <Form.Control type="text" placeholder="Enter Description" required size="lg" ref={descriptionRef} defaultValue={props.description}/>
                 </Form.Group>
                 <Form.Group className="p-3">
-                    <Form.Select ref={categoryRef} size="lg">
-                        <option>Select Category</option>
+                    <Form.Select ref={categoryRef} size="lg" defaultValue={props.category}>
+                        <option value="default">SELECT CATEGORY</option>
                         <option value="food">FOOD</option>
                         <option value="grocery">GROCERY</option>
                         <option value="fuel">FUEL</option>
