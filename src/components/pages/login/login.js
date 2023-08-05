@@ -3,11 +3,14 @@ import { Button,Container,Form } from "react-bootstrap";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { authActions } from "../../../store/authReducer";
+import { useDispatch } from "react-redux";
 
 const Login=(props) =>{
     const emailRef=useRef();
     const passwordRef=useRef();
     const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const loginHandler= async (e) =>{
         e.preventDefault();
@@ -22,6 +25,11 @@ const Login=(props) =>{
              });
              localStorage.setItem("token",response.data.idToken);
              localStorage.setItem("emailId",enteredEmail);
+
+             dispatch(authActions.login());
+             dispatch(authActions.setEmailID(enteredEmail));
+             dispatch(authActions.setToken(response.data.idToken));
+             
              props.setExpensesData([]);
              navigate("/home");
              document.location.reload();

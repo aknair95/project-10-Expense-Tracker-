@@ -5,9 +5,12 @@ import { useState } from "react";
 import axios from "axios";
 import ExpenseForm from "../../expenseForm";
 import ExpenseList from "../../expenseList";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../../store/authReducer";
 
 const Home=(props) =>{
     const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const completeNowBtnHandler=() =>{
         navigate("/updateProfile");
@@ -16,7 +19,7 @@ const Home=(props) =>{
     const token=localStorage.getItem("token");
     const emailId=localStorage.getItem("emailId");
 
-    const [tokenStatus,setTokenStatus]= useState(token);
+    dispatch(authActions.setToken(token));
 
     let emailVerifyStatus=localStorage.getItem(`emailVerifyStatus${emailId}`);
     if(emailVerifyStatus===null){ 
@@ -41,7 +44,11 @@ const Home=(props) =>{
     const logoutHandler=() =>{
         localStorage.removeItem("token");
         localStorage.removeItem("emailId");
-        setTokenStatus(null);
+
+        dispatch(authActions.logout());
+        dispatch(authActions.setEmailID(null));
+        dispatch(authActions.setToken(null));
+    
         navigate("/login");
     }
 
@@ -54,26 +61,25 @@ const Home=(props) =>{
         setDescription(description);
         setCategory(category);
         scrollTo(0,0);
-        alert("!!! EDIT EXPENSE AND RE-SUBMIT !!!")
+        alert("!!! EDIT EXPENSE AND RE-SUBMIT !!!");
     }
 
     return(
         <>
             <header className={classes.header}>
                 <h2>!!! Welcome to Expense Tracker !!!</h2>
-                {(props.profileUpdated==="false" && !!tokenStatus) && <h5>Your Profile Is Incomplete.</h5>}
-                {(props.profileUpdated==="false" && !!tokenStatus) && <Button variant="link" size="lg" onClick={completeNowBtnHandler}>Complete Now</Button>}
+                {(props.profileUpdated==="false" && !!token) && <h5>Your Profile Is Incomplete.</h5>}
+                {(props.profileUpdated==="false" && !!token) && <Button variant="link" size="lg" onClick={completeNowBtnHandler}>Complete Now</Button>}
             </header><hr/>
             <div className={classes.btns}>
-                {(emailVerified==="false" && !!tokenStatus) && <Button variant="info" size="md" onClick={verifyEmailBtnHandler}>Verify Email</Button>}
-                {!!tokenStatus && <Button variant="danger" onClick={logoutHandler}>Logout</Button>}
+                {(emailVerified==="false" && !!token) && <Button variant="info" size="md" onClick={verifyEmailBtnHandler}>Verify Email</Button>}{" "}
+                {!!token && <Button variant="danger" onClick={logoutHandler}>Logout</Button>}
             </div>
-           { !!tokenStatus &&
+           { !!token &&
             <>
                 <main>
                     <hr/>
                     <ExpenseForm 
-                        addNewExpense={props.addNewExpense} 
                         preFillFormHandler={preFillFormHandler} 
                         amt={amt} 
                         description={description} 
@@ -81,9 +87,7 @@ const Home=(props) =>{
                 </main>
                 <footer>
                     <br/><hr/>
-                    <ExpenseList 
-                        expensesData={props.expensesData} 
-                        setExpensesData={props.setExpensesData} 
+                    <ExpenseList  
                         preFillForm={preFillFormHandler}/>
                 </footer>
             </>

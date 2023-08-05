@@ -6,8 +6,11 @@ import SignUp from "./components/pages/signUp/signUp";
 import Home from "./components/pages/home/home";
 import UpdateProfile from "./components/pages/updateProfile/updateProfile";
 import ResetPassword from "./components/pages/resetPassword/resetPassword";
+import { useDispatch } from "react-redux";
+import { expensesActions } from "./store/expensesReducer";
 
 function App() {
+  const dispatch=useDispatch();
   
   const emailId=localStorage.getItem("emailId");
   let updatedEmailId;
@@ -22,13 +25,12 @@ function App() {
   }
 
   const [profileUpdated,setProfileUpdated]= useState(profileUpdatedStatus);
-  const [expensesData,setExpensesData]= useState([]);
-
+ 
   const getExpensesFirebase= async() =>{ 
   try{ 
     const response=await axios.get(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`);
     if(!!response.data){
-     setExpensesData(response.data.updatedExpenses);
+    dispatch(expensesActions.addExpense(response.data.updatedExpenses));
     }
     } catch(error){
       console.log(error);
@@ -39,34 +41,14 @@ function App() {
     getExpensesFirebase();
   },[])
 
-  const postExpensesFirebase= async(updatedExpenses) =>{
-    try{ 
-      await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
-          updatedExpenses: updatedExpenses
-         });  
-    } catch(error){
-      console.log(error);
-  }  
-  }
-
-  useEffect(() =>{
-    postExpensesFirebase();
-  },[postExpensesFirebase])
-
-  const addNewExpenseHandler=(newExpense) =>{
-    const updatedExpenses=[ ...expensesData,newExpense];
-    setExpensesData(updatedExpenses);  
-    postExpensesFirebase(updatedExpenses);
-  }
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login setExpensesData={setExpensesData}/>} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp/>} />
-          <Route path="/home" element={<Home profileUpdated={profileUpdated} addNewExpense={addNewExpenseHandler} 
-            expensesData={expensesData} setExpensesData={setExpensesData} />} />
+          <Route path="/home" element={<Home profileUpdated={profileUpdated} />} />
           <Route path="/updateProfile" element={<UpdateProfile setProfileUpdated={setProfileUpdated} profileUpdated={profileUpdated} />} />
           <Route path="/resetPassword" element={<ResetPassword/>} />
         </Routes>

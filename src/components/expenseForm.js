@@ -1,11 +1,38 @@
 import classes from "./expenseForm.module.css";
 import { Button,Container,Form } from "react-bootstrap";
-import { useRef } from "react";
+import { useRef,useEffect } from "react";
+import { expensesActions } from "../store/expensesReducer";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const ExpenseForm=(props) =>{
+    const dispatch=useDispatch();
+    const expenses=useSelector((state) => state.expenses.expenses);
+
     const amountRef=useRef();
     const descriptionRef=useRef();
     const categoryRef=useRef();
+
+    const emailId=localStorage.getItem("emailId");
+    let updatedEmailId;
+    if(!!emailId){
+      const emailId1=emailId.replace('@',"");
+      updatedEmailId=emailId1.replace('.',"");
+    }
+
+    const postExpensesFirebase= async(updatedExpenses) =>{
+        try{ 
+          await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
+              updatedExpenses: updatedExpenses
+             });  
+        } catch(error){
+          console.log(error);
+      }  
+    }
+    
+    useEffect(() =>{
+        postExpensesFirebase();
+    },[postExpensesFirebase]);
 
     const addExpenseHandler= (e) =>{
         e.preventDefault();
@@ -20,8 +47,10 @@ const ExpenseForm=(props) =>{
             category: enteredCategory
         }
 
-        props.addNewExpense(newExpense);
-
+        const updatedExpenses=[...expenses,newExpense];
+        dispatch(expensesActions.addExpense(updatedExpenses));
+        console.log(expenses);
+        postExpensesFirebase(updatedExpenses);
         amountRef.current.value="";
         descriptionRef.current.value="";
         categoryRef.current.value="default";

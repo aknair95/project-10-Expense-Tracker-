@@ -1,10 +1,14 @@
 import { Button } from "react-bootstrap";
 import "./expenseList.css";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { expensesActions } from "../store/expensesReducer";
 
 const ExpenseList=(props) =>{
+    const expenses=useSelector((state) => state.expenses.expenses);
+    const dispatch=useDispatch();
 
-    if(props.expensesData.length === 0)
+    if(expenses.length === 0)
     {
         return <h2 className="expenses-list-message">!!! NO EXPENSE FOUND !!!</h2>;
     }
@@ -15,8 +19,8 @@ const ExpenseList=(props) =>{
 
     const deleteExpenseHandler= async(e) =>{
         const Id=e.target.parentElement.parentElement.id;
-        const updatedExpenses=props.expensesData.filter((element) => element.id!=Id )
-        props.setExpensesData(updatedExpenses);
+        const updatedExpenses=expenses.filter((element) => element.id!=Id )
+        dispatch(expensesActions.removeExpense(updatedExpenses));
 
         try{ 
             await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
@@ -32,7 +36,7 @@ const ExpenseList=(props) =>{
         const Id=e.target.parentElement.parentElement.id;
 
         let amt,description,category;
-        props.expensesData.map((element) =>{
+        expenses.map((element) =>{
             if(element.id==Id){
                 amt=element.amount;
                 description=element.description;
@@ -41,8 +45,8 @@ const ExpenseList=(props) =>{
         })
         props.preFillForm(amt,description,category);     
 
-        const updatedExpenses=props.expensesData.filter((element) => element.id!=Id )
-        props.setExpensesData(updatedExpenses);
+        const updatedExpenses=expenses.filter((element) => element.id!=Id)
+        dispatch(expensesActions.addExpense(updatedExpenses));
          
         try{ 
             await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
@@ -58,7 +62,7 @@ const ExpenseList=(props) =>{
         <h2 className="expenses">EXPENSES</h2>
         <ul className="expenses-list">
             {   
-                props.expensesData.map((element) => (
+                expenses.map((element) => (
                     <li className="expense-item" key={Math.random()} id={element.id}>
                         <div className="expense-item__description"> 
                             <div className='expense-item__amt'>{`Rs ${element.amount}`}</div>

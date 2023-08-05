@@ -13,6 +13,7 @@ const ResetPassword=() =>{
         e.preventDefault();
         (<Spinner animation="border"/>)
         const enteredEmail=emailRef.current.value;
+        
         //POST firebase request to reset password link to email
         try{ 
             await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC2XPoZUSexSQEMArfcPRTAXop_LGXmjnY",{
