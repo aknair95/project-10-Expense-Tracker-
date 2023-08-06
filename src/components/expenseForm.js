@@ -48,7 +48,7 @@ const ExpenseForm=(props) =>{
         }
 
         const updatedExpenses=[...expenses,newExpense];
-        dispatch(expensesActions.addExpense(updatedExpenses));
+        dispatch(expensesActions.updateExpense(updatedExpenses));
         console.log(expenses);
         postExpensesFirebase(updatedExpenses);
         amountRef.current.value="";

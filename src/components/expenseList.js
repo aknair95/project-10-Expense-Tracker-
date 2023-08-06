@@ -20,7 +20,7 @@ const ExpenseList=(props) =>{
     const deleteExpenseHandler= async(e) =>{
         const Id=e.target.parentElement.parentElement.id;
         const updatedExpenses=expenses.filter((element) => element.id!=Id )
-        dispatch(expensesActions.removeExpense(updatedExpenses));
+        dispatch(expensesActions.updateExpense(updatedExpenses));
 
         try{ 
             await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{
@@ -46,7 +46,7 @@ const ExpenseList=(props) =>{
         props.preFillForm(amt,description,category);     
 
         const updatedExpenses=expenses.filter((element) => element.id!=Id)
-        dispatch(expensesActions.addExpense(updatedExpenses));
+        dispatch(expensesActions.updateExpense(updatedExpenses));
          
         try{ 
             await axios.patch(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`,{

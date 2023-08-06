@@ -30,7 +30,7 @@ function App() {
   try{ 
     const response=await axios.get(`https://expense-tracker-ae3ae-default-rtdb.firebaseio.com/expense-${updatedEmailId}.json`);
     if(!!response.data){
-    dispatch(expensesActions.addExpense(response.data.updatedExpenses));
+    dispatch(expensesActions.updateExpense(response.data.updatedExpenses));
     }
     } catch(error){
       console.log(error);
