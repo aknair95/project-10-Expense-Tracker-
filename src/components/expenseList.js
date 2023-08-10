@@ -1,11 +1,16 @@
-import { Button } from "react-bootstrap";
+import { Button, ToggleButton, ToggleButtonGroup,ButtonGroup } from "react-bootstrap";
 import "./expenseList.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { expensesActions } from "../store/expensesReducer";
+import { themeActions } from "../store/themeReducer";
+import { useState } from "react";
 
 const ExpenseList=(props) =>{
+    const [activePremiumBtnStatus,setActivePremiumBtnStatus]=useState(false);
+
     const expenses=useSelector((state) => state.expenses.expenses);
+    const theme=useSelector((state) => state.theme.theme);
     const dispatch=useDispatch();
 
     if(expenses.length === 0)
@@ -57,9 +62,42 @@ const ExpenseList=(props) =>{
         } 
     }
 
+    let expense10000=false;
+    const totalExpense=expenses.reduce((total,element) =>{
+        return total+Number(element.amount);
+    },0);
+    if(totalExpense>10000){
+        expense10000=true;
+    }
+
+    const activatePremiumHandler=() =>{
+        setActivePremiumBtnStatus(true);
+        dispatch(themeActions.setTheme("light"));
+    }
+
+    const themeToggleHandler=(value) =>{
+        dispatch(themeActions.setTheme(value));
+    }
+
+    let defaultValue="";
+    if(theme==="light"){
+        defaultValue="dark";    
+    }else{
+        defaultValue="light";
+    }
+
     return (
         <>
         <h2 className="expenses">EXPENSES</h2>
+        <Button variant="secondary" onClick={activatePremiumHandler} disabled={!expense10000 || activePremiumBtnStatus}>ACTIVATE PREMIUM</Button>{" "}
+       { activePremiumBtnStatus && <ToggleButtonGroup type="radio" name="themes" defaultValue={defaultValue} >
+            <ToggleButton id="light" value="dark" onChange={(e) => themeToggleHandler(e.currentTarget.value)}>
+                LIGHT
+            </ToggleButton>    
+            <ToggleButton id="dark" value="light" onChange={(e) => themeToggleHandler(e.currentTarget.value)}>
+                DARK
+            </ToggleButton>
+        </ToggleButtonGroup> }  
         <ul className="expenses-list">
             {   
                 expenses.map((element) => (
