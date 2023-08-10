@@ -9,17 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../../store/authReducer";
 
 const Home=(props) =>{
-    const navigate=useNavigate();
-    const dispatch=useDispatch();
+    const [amt,setAmt]=useState();
+    const [description,setDescription]=useState();
+    const [category,setCategory]=useState();
 
-    const completeNowBtnHandler=() =>{
-        navigate("/updateProfile");
-    }
-    
     const token=localStorage.getItem("token");
     const emailId=localStorage.getItem("emailId");
-
-    dispatch(authActions.setToken(token));
 
     let emailVerifyStatus=localStorage.getItem(`emailVerifyStatus${emailId}`);
     if(emailVerifyStatus===null){ 
@@ -27,6 +22,17 @@ const Home=(props) =>{
     }    
     const [emailVerified,setEmailVerified]= useState(emailVerifyStatus);
     
+    
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
+    const theme=useSelector((state) => state.theme.theme);
+
+    const completeNowBtnHandler=() =>{
+        navigate("/updateProfile");
+    }
+
+    dispatch(authActions.setToken(token));
+
     const verifyEmailBtnHandler= async() =>{
         try{ 
             await axios.post("https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyC2XPoZUSexSQEMArfcPRTAXop_LGXmjnY",{
@@ -52,10 +58,6 @@ const Home=(props) =>{
         navigate("/login");
     }
 
-    const [amt,setAmt]=useState();
-    const [description,setDescription]=useState();
-    const [category,setCategory]=useState();
-   
     const preFillFormHandler=(amt,description,category) =>{
         setAmt(amt);
         setDescription(description);
@@ -65,7 +67,7 @@ const Home=(props) =>{
     }
 
     return(
-        <>
+        <div className={theme==="dark" ? classes.darkTheme: classes.lightTheme}>
             <header className={classes.header}>
                 <h2>!!! Welcome to Expense Tracker !!!</h2>
                 {(props.profileUpdated==="false" && !!token) && <h5>Your Profile Is Incomplete.</h5>}
@@ -92,7 +94,7 @@ const Home=(props) =>{
                 </footer>
             </>
             }    
-        </>
+        </div>
     )
 }
 
