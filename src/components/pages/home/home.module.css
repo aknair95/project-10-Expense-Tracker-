@@ -17,3 +17,13 @@ btns {
     display: flex;
     flex-direction: row;
 }
+
+.lightTheme {
+    background-color: #fff;
+    color: #333;
+}
+
+.darkTheme {
+    background-color:#333;
+    color: #fff;
+}
