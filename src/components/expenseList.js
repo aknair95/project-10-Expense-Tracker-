@@ -4,14 +4,29 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { expensesActions } from "../store/expensesReducer";
 import { themeActions } from "../store/themeReducer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ExpenseList=(props) =>{
     const [activePremiumBtnStatus,setActivePremiumBtnStatus]=useState(false);
+    const[premiumExpense,setPremiumExpense]=useState(false);
 
     const expenses=useSelector((state) => state.expenses.expenses);
     const theme=useSelector((state) => state.theme.theme);
+
     const dispatch=useDispatch();
+
+    useEffect(() =>{
+        const totalExpense=expenses.reduce((total,element) =>{
+            return total+Number(element.amount);
+        },0);
+        if(totalExpense>10000){
+            setPremiumExpense(true);
+        }else{
+            setPremiumExpense(false);
+            dispatch(themeActions.setTheme("dark"));
+        }
+    },[expenses]);
+    
 
     if(expenses.length === 0)
     {
@@ -62,14 +77,6 @@ const ExpenseList=(props) =>{
         } 
     }
 
-    let expense10000=false;
-    const totalExpense=expenses.reduce((total,element) =>{
-        return total+Number(element.amount);
-    },0);
-    if(totalExpense>10000){
-        expense10000=true;
-    }
-
     const activatePremiumHandler=() =>{
         setActivePremiumBtnStatus(true);
         dispatch(themeActions.setTheme("light"));
@@ -77,6 +84,10 @@ const ExpenseList=(props) =>{
 
     const themeToggleHandler=(value) =>{
         dispatch(themeActions.setTheme(value));
+    }
+
+    const downloadBtnHandler=() =>{
+
     }
 
     let defaultValue="";
@@ -89,15 +100,16 @@ const ExpenseList=(props) =>{
     return (
         <>
         <h2 className="expenses">EXPENSES</h2>
-        <Button variant="secondary" onClick={activatePremiumHandler} disabled={!expense10000 || activePremiumBtnStatus}>ACTIVATE PREMIUM</Button>{" "}
-       { activePremiumBtnStatus && <ToggleButtonGroup type="radio" name="themes" defaultValue={defaultValue} >
+        <Button variant="secondary" onClick={activatePremiumHandler} disabled={!premiumExpense || activePremiumBtnStatus}>ACTIVATE PREMIUM</Button>{" "}
+       { (activePremiumBtnStatus && premiumExpense) && <ToggleButtonGroup type="radio" name="themes" defaultValue={defaultValue} >
             <ToggleButton id="light" value="dark" onChange={(e) => themeToggleHandler(e.currentTarget.value)}>
                 LIGHT
             </ToggleButton>    
             <ToggleButton id="dark" value="light" onChange={(e) => themeToggleHandler(e.currentTarget.value)}>
                 DARK
             </ToggleButton>
-        </ToggleButtonGroup> }  
+        </ToggleButtonGroup> }{" "}
+        {(activePremiumBtnStatus && premiumExpense) && <Button onClick={downloadBtnHandler}>DOWNLOAD EXPENSES</Button>} 
         <ul className="expenses-list">
             {   
                 expenses.map((element) => (
