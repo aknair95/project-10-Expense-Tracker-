@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { expensesActions } from "../store/expensesReducer";
 import { themeActions } from "../store/themeReducer";
 import { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
 
 const ExpenseList=(props) =>{
     const [activePremiumBtnStatus,setActivePremiumBtnStatus]=useState(false);
@@ -85,9 +86,22 @@ const ExpenseList=(props) =>{
     const themeToggleHandler=(value) =>{
         dispatch(themeActions.setTheme(value));
     }
-
-    const downloadBtnHandler=() =>{
-
+    
+    // To convert expenses to CSV format of array of objects with strings data separated with comma
+    let data=[];
+    expenses.forEach((element) =>{
+        let values={amount: element.amount,description: element.description,category: element.category};
+        data.push(values);
+        values={};
+    });
+    const headers=[
+        {label: "Amount", key: "amount"},
+        {label: "Description", key: "description"},
+        {label: "Category", key: "category"}
+    ];
+    
+    const downloadHandler=() =>{
+       alert("!!! Expenses File Downloaded !!!")
     }
 
     let defaultValue="";
@@ -109,7 +123,8 @@ const ExpenseList=(props) =>{
                 DARK
             </ToggleButton>
         </ToggleButtonGroup> }{" "}
-        {(activePremiumBtnStatus && premiumExpense) && <Button onClick={downloadBtnHandler}>DOWNLOAD EXPENSES</Button>} 
+        { (activePremiumBtnStatus && premiumExpense) && 
+            <Button variant="light"><CSVLink filename="expenses.csv" data={data} headers={headers} onClick={downloadHandler}>DOWNLOAD EXPENSES</CSVLink></Button> } 
         <ul className="expenses-list">
             {   
                 expenses.map((element) => (

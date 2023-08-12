@@ -12,9 +12,13 @@ const Home=(props) =>{
     const [amt,setAmt]=useState();
     const [description,setDescription]=useState();
     const [category,setCategory]=useState();
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const token=localStorage.getItem("token");
     const emailId=localStorage.getItem("emailId");
+
+    dispatch(authActions.setToken(token));
 
     let emailVerifyStatus=localStorage.getItem(`emailVerifyStatus${emailId}`);
     if(emailVerifyStatus===null){ 
@@ -22,16 +26,11 @@ const Home=(props) =>{
     }    
     const [emailVerified,setEmailVerified]= useState(emailVerifyStatus);
     
-    
-    const navigate=useNavigate();
-    const dispatch=useDispatch();
     const theme=useSelector((state) => state.theme.theme);
 
     const completeNowBtnHandler=() =>{
         navigate("/updateProfile");
     }
-
-    dispatch(authActions.setToken(token));
 
     const verifyEmailBtnHandler= async() =>{
         try{ 
