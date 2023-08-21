@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { authActions } from "../../../store/authReducer";
 import { useDispatch } from "react-redux";
+import { expensesActions } from "../../../store/expensesReducer";
 
 const Login=(props) =>{
     const emailRef=useRef();
@@ -29,11 +30,12 @@ const Login=(props) =>{
              dispatch(authActions.login());
              dispatch(authActions.setEmailID(enteredEmail));
              dispatch(authActions.setToken(response.data.idToken));
+             dispatch(expensesActions.updateExpense([]));
              
-             props.setExpensesData([]);
              navigate("/home");
              document.location.reload();
             } catch(error){
+                console.log(error)
                 alert("!!! Incorrect Email or Password !!!");
             }
 
