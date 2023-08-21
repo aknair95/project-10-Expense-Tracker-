@@ -41,6 +41,10 @@ const Login=(props) =>{
         passwordRef.current.value="";
     }
 
+    const forgotPasswordHandler=() =>{
+        navigate("/resetPassword");
+    }
+
     const createNewAccHandler=() =>{
         navigate("/signUp");
     }
@@ -58,7 +62,7 @@ const Login=(props) =>{
                 </Form.Group>
                 <div className={classes.Btns}>
                     <Button type="submit" size="lg">LOGIN</Button>
-                    <Button variant="link" size="lg">Forgot Password</Button>
+                    <Button variant="link" size="lg" onClick={forgotPasswordHandler}>Forgot Password</Button>
                     <Button variant="link" size="lg" onClick={createNewAccHandler}>Create New Account</Button>
                 </div>
             </Form>
