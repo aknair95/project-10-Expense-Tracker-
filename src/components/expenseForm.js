@@ -30,6 +30,7 @@ const ExpenseForm=(props) =>{
       }  
     }
     
+    // POST request ti firebase to update expenses in the DB.
     useEffect(() =>{
         postExpensesFirebase();
     },[postExpensesFirebase]);

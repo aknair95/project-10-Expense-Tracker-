@@ -16,6 +16,7 @@ const ExpenseList=(props) =>{
 
     const dispatch=useDispatch();
 
+    // To handle expenses > 10k with premium features
     useEffect(() =>{
         const totalExpense=expenses.reduce((total,element) =>{
             return total+Number(element.amount);

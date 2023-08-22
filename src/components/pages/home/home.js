@@ -15,6 +15,7 @@ const Home=(props) =>{
     const navigate=useNavigate();
     const dispatch=useDispatch();
 
+    // fetching token & email from local storage on app load
     const token=localStorage.getItem("token");
     const emailId=localStorage.getItem("emailId");
 

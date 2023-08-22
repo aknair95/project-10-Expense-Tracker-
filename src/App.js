@@ -16,7 +16,7 @@ function App() {
   const emailId=localStorage.getItem("emailId");
   let updatedEmailId;
   if(!!emailId){
-    const emailId1=emailId.replace('@',"");
+    const emailId1=emailId.replace('@',"");   // modifying email without '@' & '.' as not compatable with url
     updatedEmailId=emailId1.replace('.',"");
   }
 
@@ -38,6 +38,7 @@ function App() {
     }  
   }
 
+  // to fetch expenses from firebse
   useEffect(() =>{
     getExpensesFirebase();
   },[])
