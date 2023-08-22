@@ -67,7 +67,7 @@ const Home=(props) =>{
 
     return(
         <div className={theme==="dark" ? classes.darkTheme: classes.lightTheme}>
-            <header className={classes.header}>
+            <header className={classes.header} style={{marginTop: "65px"}}>
                 <h2>!!! Welcome to Expense Tracker !!!</h2>
                 {(props.profileUpdated==="false" && !!token) && <h5>Your Profile Is Incomplete.</h5>}
                 {(props.profileUpdated==="false" && !!token) && <Button variant="link" size="lg" onClick={completeNowBtnHandler}>Complete Now</Button>}

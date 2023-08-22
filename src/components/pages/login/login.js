@@ -7,7 +7,7 @@ import { authActions } from "../../../store/authReducer";
 import { useDispatch } from "react-redux";
 import { expensesActions } from "../../../store/expensesReducer";
 
-const Login=(props) =>{
+const Login=() =>{
     const emailRef=useRef();
     const passwordRef=useRef();
     const navigate=useNavigate();
@@ -31,8 +31,8 @@ const Login=(props) =>{
              dispatch(authActions.setEmailID(enteredEmail));
              dispatch(authActions.setToken(response.data.idToken));
              dispatch(expensesActions.updateExpense([]));
-             
-             navigate("/home");
+
+             navigate("/");
              document.location.reload();
             } catch(error){
                 console.log(error)
